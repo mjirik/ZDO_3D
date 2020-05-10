@@ -1,0 +1,512 @@
+% \documentclass{article}
+% \usepackage[utf8]{inputenc}
+
+% \title{ZDO 3D}
+% \author{Miroslav Jirik}
+% \date{May 2020}
+
+% \begin{document}
+
+% \maketitle
+
+% \section{Introduction}
+
+% \end{document}
+
+\documentclass[xcolor=pdftex,dvipsnames,table]{beamer}
+\font\sm=csss10 scaled 1600
+
+%\newcommand{\argmin}{\arg\!\min}
+%\newcommand{\argmax}{\arg\!\max}
+
+%-------USEFUL-PACKAGES-----------------------------------------------------------------
+\usepackage{ae}
+\usepackage[utf8]{inputenc} % encoding utf-8
+\usepackage[czech]{babel}   % czech support
+\usepackage[T1]{fontenc}    % omezí fonty na široce kompatibilní
+\usepackage[all]{xy}
+\usepackage{hyperref} % hypertextové odkazy
+\usepackage{verbatim} % prostředí verbatim
+\usepackage{epstopdf}
+\usepackage{listings} % sazba zdrojových kódů, frame musí být s parametrem [fragile]
+\usepackage{color}
+\usepackage{amsmath}
+%\usepackage{wasysym}
+%\usepackage{gensymb}
+
+
+%-------CUSTOM-COLORS-------------------------------------------------------------------
+\definecolor{clrfg}{RGB}{0,0,0}
+\definecolor{clrfg2}{RGB}{190,215,50} % zelená: RGB: 190, 215, 50 ; HEX: #BED732
+\definecolor{clrfg3}{RGB}{224,177,0} % oranžová: RGB: 224, 177, 0 ; HEX: #E0B100
+\definecolor{clrbg}{RGB}{255,255,255}
+%\definecolor{clrbg2}{RGB}{200,200,250}
+\definecolor{clrbg3}{RGB}{224,224,225} % světle šedivá: RGB: 204, 204, 205 ; HEX: #CCCCCD
+% text (tmavě šedivá): RGB: 153, 153, 153 ; HEX: #999999
+
+%-------PRESENTATION-LAYOUT-DEFINITION--------------------------------------------------
+\mode<presentation>{
+	\usetheme{Dresden}
+%	\usecolortheme{beaver}
+	
+	\setbeamercolor{alerted text}{fg = clrfg2}
+	\setbeamercolor{background canvas}{bg = clrbg}
+	\setbeamercolor{block title}{bg = clrfg3, fg = clrfg}
+	\setbeamercolor{block body}{bg = clrbg3, fg = clrfg}
+	\setbeamercolor{frametitle}{fg = clrfg}
+	\setbeamercolor{item projected}{fg = clrbg}
+	\setbeamercolor{sidebar}{bg = clrbg}
+	\setbeamercolor{sidebar}{parent = palette primary}
+	\setbeamercolor{structure}{bg = clrfg2, fg = clrfg}
+	\setbeamercolor{subsection in sidebar}{fg = clrbg}
+	\setbeamercolor{subsection in sidebar shaded}{fg = clrbg}
+	\setbeamercolor{title}{fg = clrfg}
+	\setbeamercolor{titlelike}{fg = clrbg}
+	\setbeamercolor{section in head/foot}{fg = clrfg, bg = clrbg3}
+
+	% Zobrazi (zakomentovat) nebo zmizi (odkomentovat) navigacni symboly
+	\setbeamertemplate{navigation symbols}{}	
+
+	% Zobrazi (odkomentovat) prazdnou paticku
+	% \setbeamertemplate{footline}{}
+	% Definuje vlastni paticku
+	\setbeamertemplate{footline}{
+		\hspace*{1ex}
+ 		{\includegraphics[scale = 0.25, trim = 0cm 0.1cm 2.3cm 2.5cm]{./EU_logolink.png}
+ 		\hfill%
+ 		\includegraphics[scale = 0.15, trim = 2.3cm 1.3cm 2.3cm 2.5cm]{./KKY_logo_en.pdf}} % da sedat do \logo{}, ale pak tam je zbytecne moc mista mezi logem a patickou
+		\begin{beamercolorbox}[wd = \paperwidth, ht = 2.25ex, dp = 1ex,  rightskip = 3ex]{section in head/foot}
+			\usebeamerfont{author in head/foot}
+			\hspace*{2ex}
+			\insertshorttitle
+		\end{beamercolorbox}
+	}
+
+	\setbeamertemplate{headline}{
+%		\leavevmode
+		\begin{beamercolorbox}[wd = \paperwidth, ht = 2.25ex, dp = 3ex,  rightskip = 3ex]{section in head/foot}
+%			\hbox to .5\paperwidth{\hspace{.5em}
+			\vskip2pt
+			\insertnavigation{7cm} 
+%			\hfil
+		\end{beamercolorbox}%
+		}
+	
+	% Zobrazi (odkomentovat) prazdnou hlavicku
+%	\setbeamertemplate{headline}{}
+}
+
+%-------INFORMATION---------------------------------------------------------------------
+\title{Computer Vision}
+\subtitle{3D}
+\author{Zdenek Krnoul, Miroslav Jirik}
+
+\institute[KKY]{Department of Cybernetics \\ Faculty of Applied Sciences \\ University of West Bohemia \newline\\ ESF projekt Západočeské univerzity v Plzni \\ reg. č. CZ.02.2.69/0.0/0.0/16\_015/0002287}
+\date{} % Aby bylo na prvni strance datum vytvoreni, staci dat do slozenejch zavorek \today
+%\logo{\includegraphics[scale = 0.15, trim = 2.3cm 1.5cm 2.3cm 2.5cm]{./KKY_logo_en.pdf}} % lepsi je to definovat v paticce
+
+%-------BEGIN-OF-DOCUMENT---------------------------------------------------------------
+\begin{document}
+
+%-------TITLE-PAGE----------------------------------------------------------------------
+\begingroup 
+\setbeamertemplate{headline}{}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+%-------PAGE-NUMBERING------------------------------------------------------------------
+% Nastavi pocitani stranek
+\addtocounter{framenumber}{-1}
+\expandafter\def\expandafter\insertshorttitle\expandafter{%
+	\insertshorttitle \hfill \insertframenumber\,/\,\inserttotalframenumber
+}
+
+%-------PRESENTATION-SLIDES-------------------------------------------------------------
+% Ostatni strany prezentace
+
+\begin{frame}
+	\frametitle{Content}
+	\begin{itemize}
+		\item Plain GAN
+			\begin{itemize}
+				\item[--] General Knowledge
+				\item[--] Adversarial Loss
+				\item[--] Problems of the training
+				\item[--] Examples of Usage 
+			\end{itemize}
+		\item Autoencoders
+			\begin{itemize}
+				\item[--] Structure
+				\item[--] Latent-space arithmetic
+				\item[--] Variational Autoencoder
+				\item[--] Examples of Usage 
+			\end{itemize}
+		\item Condi-GAN
+			\begin{itemize}
+				\item[--] General Knowledge
+				\item[--] Examples of Usage 
+			\end{itemize}
+		
+	\end{itemize}
+\end{frame}
+
+\endgroup
+
+\addtocounter{framenumber}{0}
+\expandafter\def\expandafter\insertshorttitle\expandafter{%
+	\insertshorttitle \hfill \insertframenumber\,/\,\inserttotalframenumber
+}
+
+\section[Plain GAN]{Generative Adversarial Networks}
+
+\begin{frame}
+\frametitle{Supervised vs Unsupervised learning}
+\begin{columns}
+	\column{.5\textwidth}
+	\begin{block}{Supervised}
+		\begin{itemize}
+			\item Data: (x, y)
+			\item Goal: Learn a function to map x$\rightarrow$y
+			\item Examples: Classification, regression, object detection, semantic segmentation
+		\end{itemize}
+	\end{block}
+	\column{.5\textwidth}
+	\begin{block}{Unsupervised}
+		\begin{itemize}
+			\item Data: x
+			\item Goal: Learn some underlying hidden structure of the data
+			\item Examples:  Clustering, dimensionality-reduction, feature learning, density estimation, etc
+		\end{itemize}
+	\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Discriminative vs Generative models}
+\begin{columns}
+	\column{.5\textwidth}
+	\begin{block}{Discriminative}
+		\begin{itemize}
+			\item Model differences between classes
+			\item Decision boundaries between classes
+			\item Learn conditional probability $p(x|y)$
+			\item Examples: Logical Regression, SVM, kNN, traditional NN
+		\end{itemize}
+	\end{block}
+	\column{.5\textwidth}
+	\begin{block}{Generative}
+		\begin{itemize}
+			\item Model characteristics of each class
+			\item Distribution of each class
+			\item Learn joint probability $p(x,y)$
+			\item Can generate unseen content!
+			\item Examples: Naive Bayes, Markov random fields, GANs 
+		\end{itemize}
+	\end{block}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Generative Adversarial Networks}
+\begin{itemize}
+	\item Introduced by Goodfellow et al.\footnote{Goodfellow, Ian, et al. "Generative adversarial nets." Advances in neural information processing systems. 2014.}
+	\item Can be utilized in unsupervised learning tasks
+	\item Two main parts: generator $G$, and discriminator $D$
+\end{itemize}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 0.9\textwidth]{./GAN.png}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Generator vs Discriminator}
+\begin{columns}
+	\column{.5\textwidth}
+	\begin{block}{Generator}
+		\begin{itemize}
+			\item Input: $n$-dimensional vector $z$
+			\item Output: Fake image $x_f$
+			\item Goal: To produce as realistic output as possible
+		\end{itemize}
+	\end{block}
+	\column{.5\textwidth}
+	\begin{block}{Discriminator}
+		\begin{itemize}
+ 			\item Input: Real image $x_r$ or Fake image $x_f$
+ 			\item Output: Predict label
+ 			\item Goal: Distinguish between real and fake images
+		\end{itemize}
+	\end{block}
+\end{columns}
+\vspace{1.3cm}
+\centering
+\textbf{Goal}: Nash equilibrium = The discriminator predicts "real" or "fake" with probability 0.5 for any sample.
+\end{frame}
+
+\begin{frame}
+\frametitle{Adversarial Loss}
+The expected value function of the discriminator:
+\begin{equation} \label{Adversarial_loss}
+V(G,D) = \frac{1}{2}E_{x\sim p_r}[\log D(x)]+\frac{1}{2}E_{z\sim p_z}[\log (1-D(G(z)))],
+\end{equation}
+
+\begin{equation}
+\min_G(\max_D E(G,D)).
+\end{equation} 
+The best possible discriminator is the one which maximizes:
+\begin{equation}
+E_{x\sim p_r}[\log D(x)]+E_{z\sim p_z}[\log (1-D(G(z)))].
+\end{equation}
+The best possible generator is the one which minimizes:
+\begin{equation}
+E_{z\sim p_z}[\log (1-D(G(z)))].
+\end{equation}
+\end{frame}
+
+\begin{frame}
+\frametitle{Training Problems - Lack of Convergence}
+	\begin{itemize}
+		\item Stems from an unbalance speed of the training
+		\item The generator is trained faster:
+		\begin{itemize}
+			\item The generator becomes superior to the discriminator
+			\item The generator produces perfect images (from discriminator's point of view)
+			\item The discriminator is unable to reveal fakes
+		\end{itemize}
+		\item The discriminator is trained faster:
+		\begin{itemize}
+			\item The discriminator becomes superior to the generator
+			\item The discriminator flawlessly reveals all fakes
+			\item The generator does not know what to improve
+		\end{itemize}
+		\item Prevention: Heuristic strategies			
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Training Problems - Mode Collapse}
+	\begin{itemize}
+		\item No lever to force the generator to generate different outputs
+		\item The generator generates only a few different outputs perfectly and omits the rest
+	\end{itemize}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 0.9\textwidth]{./VAEGAN_trans1.png}
+	\includegraphics[width = 0.9\textwidth]{./VAEGAN_trans2.png}
+\end{figure}
+	\begin{itemize}
+		\item Prevention: Wasserstein distance, Conditional GAN
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Wasserstein Distance}
+\begin{itemize}
+	\item Replaces standard Adversarial loss
+	\item Minimum cost of transporting mass
+	\item Also distance between two different distributions:
+\end{itemize}
+\begin{equation}
+W(p_r, p_g) = \inf_{\gamma\in\Pi(p_r,p_g)}E_{(x,y)\sim\gamma}[||x-y||]
+\end{equation}
+\begin{itemize}
+	\item Critic replaces discriminator - learn $w$ to find optimal $f_w$
+	\item Wasserstein loss:
+\begin{equation}
+L(p_r,p_g) = W(p_r, p_g) = \max_{w\in\boldsymbol{W}}E_{x\sim p_r}[f_w(x)]-E_{z\sim p_z}[f_w(G(z))]
+\end{equation}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Applications and examples}
+\begin{itemize}
+	\item \href{https://github.com/hindupuravinash/the-gan-zoo}{GAN ZOO}
+	\item \href{https://machinelearningmastery.com/how-to-develop-a-generative-adversarial-network-for-an-mnist-handwritten-digits-from-scratch-in-keras/}{GAN in Keras}, \href{C:/Python36/Scripts/MPV}{Local Example}
+	\item \href{https://thispersondoesnotexist.com/}{StyleGAN - This person does not exist}
+	\item \href{https://thisrentaldoesnotexist.com/}{StyleGAN - This rental does not exist}
+	\item \href{http://thesecatsdonotexist.com/}{StyleGAN - These cats do not exist}
+	\item \href{https://thiscardoesnotexist.glitch.me/}{StyleGAN - This car does not exist}
+	\item \href{https://www.thiswaifudoesnotexist.net/}{StyleGAN - This waifu does not exist}
+	\item \href{http://www.whichfaceisreal.com/index.php}{Which person is real?}
+\end{itemize}
+
+\end{frame}
+
+\section[Autoencoders]{Autoencoders}
+
+\begin{frame}
+\frametitle{Autoencoders}
+\begin{itemize}
+	\item Unsupervised learning - minimization of reconstruction loss
+	\item Feed-forward network using "bottleneck" structure
+	\item Two main parts: Encoder $E$, and Decoder $D$
+\end{itemize}
+	\begin{figure}[!ht]
+		\centering
+		\includegraphics[width = 0.7\textwidth]{./autoencoder.png}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Encoder, Decoder, and Latent space}
+\begin{columns}
+	\column{.5\textwidth}
+	\begin{block}{Encoder}
+		\begin{itemize}
+			\item Input: Data $x$
+			\item Output: latent code $z$
+			\item Goal: Compress data into a feature vector representation while maintaining important information
+		\end{itemize}
+	\end{block}
+	\column{.5\textwidth}
+	\begin{block}{Decoder}
+		\begin{itemize}
+			\item Input:latent code $z$
+			\item Output: Decoded data $\hat{x}$
+			\item Goal: Generate an output map (with the same size as the original input) via upsampling procedure
+		\end{itemize}
+	\end{block}
+\end{columns}
+\centering
+\begin{block}{Latent space}
+	\begin{itemize}
+		\item No restriction applied to the latent space
+		\item Over-training leads to dictionarization  
+	\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Variational Autoencoder}
+\begin{itemize}
+	\item Incorporates regularization by explicitly learning a joint distribution over data via forcing the latent space to follow a Gaussian distribution
+	\item Regularization is added to the loss function
+	\item Encourages the decoder to learn reconstruct data, while enforce the encoder to follow a Gaussian distribution
+	\item Pros: Addition of probability allows unseen data generation 
+	\item Cons: Blurrier samples, harder to train
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Latent-space arithmetic}
+	\begin{itemize}
+		\item Good- trained encoder naturally holds big clustering ability across image attributes despite the lack
+		of any additional information about them
+		\item Occurs despite the unsupervised manner of the training and any additional constraints on the latent space
+		\item Phenomenon occurs with VAE, GAN, VAEGAN, etc.
+		\item Encoding and Decoding is highly non-linear process, however, some sort of linearity is preserved 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Latent-space arithmetic - Example 1}
+\begin{itemize}
+	\item \href{C:/Python36/Scripts/MPV}{Local example}
+\end{itemize}
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 0.9\textwidth]{./latent_geometric.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Latent-space arithmetic - Example 2}
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 0.9\textwidth]{./latent_geometric2.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{AE-GAN}
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 0.9\textwidth]{./VAEGAN.png}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Application and examples}
+\begin{itemize}
+	\item \href{D:/Python_scripts/FileGenerator/data/outputs/images}{VAE - document background generation}
+	\item \href{D:/Dropbox/MPV/Sencor.png}{VAE - Logo detection}
+	\item \href{D:/Python_scripts/Naki/data_results}{U-Net - Semantic segmentation of historical documents}
+	\item \href{https://www.kaggle.com/summitkwan/tl-gan-demo}{TL-GAN - Latent-space arithmetic}
+\end{itemize}
+\end{frame}
+
+
+\section[Condi-GAN]{}
+
+\begin{frame}
+\frametitle{Conditional GAN}
+\begin{itemize}
+	\item Additional condition on generated images
+	\item Labels act as an extension to the latent space $z$	
+\end{itemize}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 0.4\textwidth]{./CondiGan.png}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Loss Function}
+Standard Adversarial loss:
+\begin{equation}
+V(G,D) = \frac{1}{2}E_{x\sim p_r}[\log D(x)]+\frac{1}{2}E_{z\sim p_z}[\log (1-D(G(z)))].
+\end{equation}
+cGAN loss:
+\begin{equation}
+V(G,D) = \frac{1}{2}E_{x\sim p_r}[\log D(x|y)]+\frac{1}{2}E_{z\sim p_z}[\log (1-D(G(z|y)))].
+\end{equation}
+\end{frame}
+
+\begin{frame}
+\frametitle{Application and examples}
+\begin{itemize}
+	\item \href{https://make.girls.moe/}{Anime Girl generation}
+	\item \href{D:/Python_scripts/pytorch-CycleGAN-and-pix2pix-master/results/feret_sketch_my/test_latest/index.html}{Image-to-sketch translation}
+	\item \href{http://gandissect.res.ibm.com/ganpaint.html?project=churchoutdoor&layer=layer4}{New-environment generation}
+	\item Face aging
+	\item New-pose generation
+	\item Image inpainting 
+\end{itemize}
+\end{frame}
+
+
+
+\setbeamertemplate{headline}{}
+
+\section[]{}
+\begin{frame}
+	\begin{center}
+		\Huge{Thank you for your attention!} \\
+		\bigskip
+		\Huge{Questions?}
+	\end{center}
+\end{frame}
+
+\end{document}
+
+
+%\begin{frame}
+%	\frametitle{Klasifikace}
+%	\begin{itemize}
+%		\item Rozpoznávání ( klasifikace, angl. Pattern recognition ) – zařazování předmětů do tříd
+%		\item Klasifikátor nerozeznává objekty, nýbrž jejich obrazy (popisy)
+%		\item PŘÍZNAKOVÉ ROZPOZNÁVÁNÍ
+%		\item STRUKTURÁLNÍ (SYNTAKTICKÉ) ROZPOZNÁVÁNÍ
+%	\end{itemize}
+%	\begin{figure}[!ht]
+%		\centering
+%		\includegraphics[width = 0.9\textwidth]{./klasifikace.png}
+%	\end{figure}
+%\end{frame}

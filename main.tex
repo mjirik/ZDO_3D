@@ -128,6 +128,20 @@
 
 %-------PRESENTATION-SLIDES-------------------------------------------------------------
 
+\begin{frame}
+\frametitle{3D vidění - obsah}
+\begin{itemize}
+	\item Úvod do 3D vidění
+    \begin{itemize}
+        \item princisnímání
+    \end{itemize}
+    \item Rozpoznávání
+    \begin{itemize}
+    \item nalezení a klasifikace objektů ve scéně, často také určení polohy, orientace, měřítka apod.
+    \end{itemize}
+\end{itemize}
+\textit{Pozn. V praktických úlohách se často snažíme vyhnout 3D vidění, převést úlohu na 2D. Důvodem jsou požadavky na robustnost, nízkou cenu a velkou efektivitu využití systémů počítačového vidění.}
+\end{frame}
 
 \begin{frame}
 \frametitle{3D vidění - základní typy úloh:}
@@ -147,9 +161,9 @@
 \begin{frame}
 \frametitle{Vstupní data, možnosti snímání}
 \begin{itemize}
-	\item intenzitní obraz(y) (RGB) (často je potřeba více pohledů na scénu z různých úhlů)
+	\item intenzitní obraz(y) - (RGB) (často je potřeba více pohledů na scénu z různých úhlů)
 	\item stereovidění – právě dva intenzitní obrazy, kalibrované kamery
-	\item hloubková mapa – hloubkové senzory jsou v dnešní době běžný postup 
+	\item hloubkové senzory - jsou v dnešní době běžný postup 
 \end{itemize}
 
     \begin{figure}[!ht]
@@ -163,76 +177,77 @@
 
 \begin{frame}
 \frametitle{Hloubková mapa}
-\begin{itemize}
-	\item Lze ji získat výpočtem pouze z intenzitních obrazů, např. zmíněné stereovidění - tzv. husté stereo
-	\item V principu používáme specializovaný senzor či kameru např. dobře známí MS Kinect, Intel aj. 
-
-\end{itemize}
+\begin{enumerate}
+	\item Často používáme specializovaný senzor či kameru např. dobře známé MS Kinect, Intel RealSense aj. 
+	\item Nebo technikou zaostřování objektivu
+	\item Nebo výpočtem pouze z intenzitních obrazů, např. zmíněné stereovidění - tzv. husté stereo
+	\item A další techniky založené např. na odrazu světla, známé textuře aj.
+\end{enumerate}
 	\begin{figure}[!ht]
 	\centering
 	\includegraphics[width = 0.45\textwidth]{./lidar-car}
-	\includegraphics[width = 0.45\textwidth]{./kitti}
+	\includegraphics[width = 0.5\textwidth]{./kitti}
 	\caption{Blickfeld, KITTI dataset}
 	\end{figure}
 \end{frame}
 
 \begin{frame}
-\frametitle{Hloubková mapa - Princip snímání:}
+% \frametitle{Hloubková mapa - senzory:}
+Hloubkové senzory:
 \begin{itemize}
-\item Laserové - podobný princip jako radary a sonary 
 \item Strukturované osvětlení – scéna osvětlena pomocný zdrojem světla
-\end{itemize}
+\item Laserové - podobný princip jako radary a sonary 
+
 	\begin{figure}[!ht]
 	\centering
 	\includegraphics[width = 0.3\textwidth]{./prouzek}
 	\caption{Společný princip zařízeních při získávání hloubkové mapy.}
 	\end{figure}
 % 	\includemovie{1cm}{1cm}{ani.gif}
+
+\end{itemize}
 \end{frame}
 
 \begin{frame}
-Strukturované osvětlení:
+Princip strukturovaného osvětlení:
 \begin{itemize}
-\item Scéna/povrch osvětlen např. úzkým proužkem světla nebo jedinečným vzorem (MS Kinect I) a scéna snímána z jiného úhlu,  (problém stínů)
+\item Scéna/povrch osvětlen např. úzkým proužkem světla nebo jedinečným vzorem (MS Kinect I - infrared) a scéna snímána z jiného úhlu,  (problém stínů)
 \item Nutná kalibrace projektoru a kamery (často zabudováno pevně v přístroji)
 \item Nutný algoritmus pro dekódování promítnutého vzoru
-\item Dále už jen "klasický" princip stereovidění
+\item Dále už jen princip stereovidění, viz níže
 \item Dobrá přesnost je získána pro jednobarevné nelesklé povrchy, u Kinectu ruší jiné IR záření (např. slunce)
 \end{itemize}
     \begin{figure}[!ht]
 	\centering
-	\includegraphics[width = 0.5\textwidth]{./kinect1}
+	\includegraphics[width = 1.0\textwidth]{./kinect1}
 	\end{figure}
 \end{frame}
 
 \begin{frame}
-Strukturované osvětlení:
+
 \begin{itemize}
-\item Moiré  proužky:
+\item Strukturovaného osvětlení: Moiré  proužky:
     \begin{itemize}
-    \item obvykle promítnuty tři nebo čtyři fázově posunuté sinusové vzory na povrch 
-    \item snímky deformovaných obrazců zachycené kamerou se používají k výpočtu fázové mapy, která obsahuje informace o výšce povrchu
-    \item vysoká přesnost je získána pro jednobarevné nelesklé povrchy
+    \item Obvykle promítnuty tři nebo čtyři fázově posunuté sinusové vzory na povrch 
+    \item Snímky deformovaných obrazců zachycené kamerou se používají k výpočtu fázové mapy, která obsahuje informace o výšce povrchu
+    \item Vysoká přesnost je získána pro jednobarevné nelesklé povrchy
     \end{itemize}
 \end{itemize}
 	\begin{figure}[!ht]
 	\centering
-	\includegraphics[width = 0.8\textwidth]{./moire}
+	\includegraphics[width = 1.0\textwidth]{./moire}
 	\end{figure}
 Pozn. Na podobném principu existuje mnoho dalších metod 
 \end{frame}
 
-
-% 
-
 \begin{frame}
-Laserové měření:
+Princip laserového měření:
 \begin{itemize}
 \item Měří fázový posun mezi vyslaným a přijatým signálem (např. bodově - lidar, nebo jako obraz - ToF kamera - MS Kinect II)
 \end{itemize}
 	\begin{figure}[!ht]
 	\centering
-	\includegraphics[width = 1.0\textwidth]{./tof}
+	\includegraphics[trim=30 0 30 0,clip, width = 1.0\textwidth]{./tof}
 	\caption{Převzato z \cite{Kitano2017}}
 	\end{figure}
 % 	\includemovie{1cm}{1cm}{ani.gif}
@@ -250,22 +265,22 @@ Princip proměnného zaostření objektivu:
 	\begin{figure}[!ht]
 	\centering
 	\includegraphics[width = 0.8\textwidth]{./fokus}
-	\caption{Převzato z \cite{Suwajanakorn_2015_CVPR}}
+	\caption{Pro mobilní telefon, převzato z \cite{Suwajanakorn_2015_CVPR}}
 	\end{figure}
 \end{frame}
 
  
 \begin{frame}
-\frametitle{3D vidění - Perspektivní kamera}
-
+% \frametitle{3D vidění - Perspektivní kamera}
+Princip stereovidění:
 \begin{itemize}
-\item obecný \textbf{model perspektivní kamery} slouží k popisu projekce $ 3D $ prostoru do $ 2D $ prostoru (obrazová rovina)
-\item vždy se jedná o \textbf{středovou projekci}
+\item Využívá obecný \textbf{model perspektivní kamery} - popis projekce $ 3D $ prostoru do $ 2D $ prostoru (obrazová rovina)
+\item Vždy se jedná o \textbf{středovou projekci}
 \end{itemize}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.5\textwidth]{./fig01}
+\includegraphics[width=0.65\textwidth]{./fig01}
 \end{figure}
 \textit{
 Pozn.  speciální případ ... střed projekce leží v nekonečnu $ \rightarrow $ \textbf{afinní kamera} a jde o zobecnění tzv. paralelní projekce}
@@ -278,18 +293,17 @@ Pozn.  speciální případ ... střed projekce leží v nekonečnu $ \rightarro
 \end{figure}
 
 \begin{itemize}
-\item perspektivnı kamera má 1 stupňů volnosti: 1x ohnisková
+\item Perspektivnı kamera má 11 stupňů volnosti: 1x ohnisková
 vzdálenost v pixelech + 1x poměr stran pixelu + 1x zkosenı os
 + 2x počátek obrázku + 3x posun + 3x rotace kamery = 11
 DOFs (degree of freedom)
-\item pro určení použijeme algoritmus kalibrace kamery (problém je lineární v homogenních souřadnicích)
-\item teoreticky stačí 5,5 prostorových bodů
+\item Pro určení použijeme algoritmus kalibrace kamery (problém je lineární v homogenních souřadnicích)
+\item Teoreticky stačí 5,5 prostorových bodů
 \end{itemize}
 
 \end{frame}
 
 \begin{frame}
-\frametitle{3D vidění - Radialní zkreslení}
 
 \begin{figure}[h]
  \centering
@@ -298,21 +312,21 @@ DOFs (degree of freedom)
  \end{figure}
 \begin{itemize}
 
-\item někdy je nutné provést korekci zkreslení souřadnic obrázku
-\item efekt je způsoben nedokonalostí středového promítání, které je fyzicky provedeno přes čočku(y) objektivu
+\item Někdy je nutné provést korekci zkreslení souřadnic obrázku - tzv. radialní zkreslení
+\item Efekt je způsoben nedokonalostí středového promítání, které je fyzicky provedeno přes čočku(y) objektivu
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{3D vidění - stereovidění}
+
 \begin{itemize}
-\item máme dva pohledy na stejnou scénu z různých směrů
+\item U stereovidění máme dva pohledy na stejnou scénu z různých směrů
 \begin{itemize}
-\item dva pohledy mohou být získány souběžně v jeden okamžik (např. dvě kamery)
-\item pohyb přístroje před objektem (např. obcházím kolem sochy a fotím ji z různých úhlů)
-\item pohyb objektu před přístrojem (např. otáčím jablkem před kamerou)
+\item Pohledy mohou být získány souběžně v jeden okamžik (např. dvě kamery)
+\item Pohyb přístroje před objektem (např. obcházím kolem sochy a fotím ji z různých úhlů)
+\item Pohyb objektu před přístrojem (např. otáčím jablkem před kamerou)
 \end{itemize}
-\item tyto úlohy jsou duální a vedou na stejné řešení
+\item Tyto úlohy jsou duální a vedou na stejné řešení
 \end{itemize}
 \begin{figure}[h]
 \centering
@@ -323,7 +337,7 @@ DOFs (degree of freedom)
 \end{frame}
 
 \begin{frame}
-\frametitle{Stereovidění - 3D rekonstrukce}
+Stereovidění - 3D rekonstrukce
 
 \begin{figure}[h]
 \centering
@@ -331,9 +345,9 @@ DOFs (degree of freedom)
 \label{fig:epi3}
 \end{figure}
 \begin{itemize}
-\item pokud známe obě kamery zkalibrované
-\item a současně máme korespondující pár
-\item pak můžeme určit 3D souřadnici neznámého bodu
+\item Pokud známe obě kamery zkalibrované
+\item A současně máme korespondující pár
+\item Pak můžeme určit 3D souřadnici neznámého bodu
 \end{itemize}
 \end{frame}
 
@@ -433,7 +447,7 @@ GEON (z angl. geometrical ions)
 	\item  Zdůrazňuje  kvalitativní  charakter  reprezentace  objektů
 	\item  3D objekty  jsou  složeny  z několika  sousedících GEONů
 	\item Navrženo 36 základních GEONů
-	\item každý GEON je charakterizován čtveřicí kvalitativních vlastností:
+	\item Každý GEON je charakterizován čtveřicí kvalitativních vlastností:
 	    \begin{itemize}
 	    \item hranice – rovná / křivá 
 	    \item symetrie – středová / osová / žádná 

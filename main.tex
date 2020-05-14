@@ -13,8 +13,8 @@
 
 % \end{document}
 
-\documentclass[xcolor=pdftex,dvipsnames,table]{beamer}
-\font\sm=csss10 scaled 1600
+\documentclass[xcolor=pdftex,dvipsnames,table,10pt]{beamer}
+% \font\sm=csss10 scaled 1600
 
 %\newcommand{\argmin}{\arg\!\min}
 %\newcommand{\argmax}{\arg\!\max}
@@ -33,6 +33,8 @@
 \usepackage{amsmath}
 %\usepackage{wasysym}
 %\usepackage{gensymb}
+\usepackage[ruled,vlined]{algorithm2e}
+% \usepackage{lstlisting}
 
 
 %-------CUSTOM-COLORS-------------------------------------------------------------------
@@ -125,56 +127,9 @@
 
 %-------PRESENTATION-SLIDES-------------------------------------------------------------
 % Ostatni strany prezentace
+\input{object_representation}
 
-\begin{frame}{Frame Title}
-   	Herbert Edelsbrunner and John Harer, [Computational Topology. An Introduction](https://www.amazon.it/Computational-Topology-Introduction-Herbert-Edelsbrunner/dp/0821849255/),  AMS, 2011.
-
-3.	Jeremy Kepner and John Gilbert,[Graph Algorithms in the Language of Linear Algebra](epubs.siam.org/doi/book/10.1137/1.9780898719918), 2011.
-
-4.	Timothy A. Davis, [Direct Methods for Sparse Linear Systems](http://epubs.siam.org/doi/book/10.1137/1.9780898718881), SIAM, 2006
-
-5.	Herbert Edelsbrunner, [Geometry and Topology for Mesh Generation](https://www.amazon.com/Generation-Cambridge-Monographs-Computational-Mathematics/dp/052168207X), Cambridge Monographs on Applied and Computational Mathematics, 2001. \cite{Edelsbrunner2001}
-\end{frame}
-
-
-\begin{frame}
-	\frametitle{Content}
-	\begin{itemize}
-		\item Plain GAN
-			\begin{itemize}
-				\item[--] General Knowledge
-				\item[--] Adversarial Loss
-				\item[--] Problems of the training
-				\item[--] Examples of Usage 
-			\end{itemize}
-		\item Autoencoders
-			\begin{itemize}
-				\item[--] Structure
-				\item[--] Latent-space arithmetic
-				\item[--] Variational Autoencoder
-				\item[--] Examples of Usage 
-			\end{itemize}
-		\item Condi-GAN
-			\begin{itemize}
-				\item[--] General Knowledge
-				\item[--] Examples of Usage 
-			\end{itemize}
-		
-	\end{itemize}
-\end{frame}
-
-\endgroup
-
-\begin{frame}{Interval Tree}
-
-    
-\end{frame}
-
-\begin{frame}{Delaunay triangulations}
-
-\cite{DeBerg2008}
-    
-\end{frame}
+\subsection{}
 
 % \addtocounter{framenumber}{0}
 % \expandafter\def\expandafter\insertshorttitle\expandafter{%

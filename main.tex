@@ -31,6 +31,7 @@
 \usepackage{listings} % sazba zdrojových kódů, frame musí být s parametrem [fragile]
 \usepackage{color}
 \usepackage{amsmath}
+% \usepackage{movie15}
 %\usepackage{wasysym}
 %\usepackage{gensymb}
 \usepackage[ruled,vlined]{algorithm2e}
@@ -126,6 +127,329 @@
 }
 
 %-------PRESENTATION-SLIDES-------------------------------------------------------------
+
+
+\begin{frame}
+\frametitle{3D vidění - základní typy úloh:}
+\begin{itemize}
+	\item Rekonstrukce
+    \begin{itemize}
+    \item nalezení  geometrických  a  fyzikálních  parametrů  objektů  ve  3D scéně  tak,  aby  bylo  možno rekonstruovat jejich 3D tvar
+    \end{itemize}
+    \item Rozpoznávání
+    \begin{itemize}
+    \item nalezení a klasifikace objektů ve scéně, často také určení polohy, orientace, měřítka apod.
+    \end{itemize}
+\end{itemize}
+\textit{Pozn. V praktických úlohách se často snažíme vyhnout 3D vidění, převést úlohu na 2D. Důvodem jsou požadavky na robustnost, nízkou cenu a velkou efektivitu využití systémů počítačového vidění.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Vstupní data, možnosti snímání}
+\begin{itemize}
+	\item intenzitní obraz(y) (RGB) (často je potřeba více pohledů na scénu z různých úhlů)
+	\item stereovidění – právě dva intenzitní obrazy, kalibrované kamery
+	\item hloubková mapa – hloubkové senzory jsou v dnešní době běžný postup 
+\end{itemize}
+
+    \begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 0.3\textwidth]{./stereo}
+	\includegraphics[width = 0.3\textwidth]{./intel}
+	\includegraphics[width = 0.3\textwidth]{./lidar}
+	\end{figure}
+	
+\end{frame}
+
+\begin{frame}
+\frametitle{Hloubková mapa}
+\begin{itemize}
+	\item Lze ji získat výpočtem pouze z intenzitních obrazů, např. zmíněné stereovidění - tzv. husté stereo
+	\item V principu používáme specializovaný senzor či kameru např. dobře známí MS Kinect, Intel aj. 
+
+\end{itemize}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 0.45\textwidth]{./lidar-car}
+	\includegraphics[width = 0.45\textwidth]{./kitti}
+	\caption{Blickfeld, KITTI dataset}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Hloubková mapa - Princip snímání:}
+\begin{itemize}
+\item Laserové - podobný princip jako radary a sonary 
+\item Strukturované osvětlení – scéna osvětlena pomocný zdrojem světla
+\end{itemize}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 0.3\textwidth]{./prouzek}
+	\caption{Společný princip zařízeních při získávání hloubkové mapy.}
+	\end{figure}
+% 	\includemovie{1cm}{1cm}{ani.gif}
+\end{frame}
+
+\begin{frame}
+Strukturované osvětlení:
+\begin{itemize}
+\item Scéna/povrch osvětlen např. úzkým proužkem světla nebo jedinečným vzorem (MS Kinect I) a scéna snímána z jiného úhlu,  (problém stínů)
+\item Nutná kalibrace projektoru a kamery (často zabudováno pevně v přístroji)
+\item Nutný algoritmus pro dekódování promítnutého vzoru
+\item Dále už jen "klasický" princip stereovidění
+\item Dobrá přesnost je získána pro jednobarevné nelesklé povrchy, u Kinectu ruší jiné IR záření (např. slunce)
+\end{itemize}
+    \begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 0.5\textwidth]{./kinect1}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+Strukturované osvětlení:
+\begin{itemize}
+\item Moiré  proužky:
+    \begin{itemize}
+    \item obvykle promítnuty tři nebo čtyři fázově posunuté sinusové vzory na povrch 
+    \item snímky deformovaných obrazců zachycené kamerou se používají k výpočtu fázové mapy, která obsahuje informace o výšce povrchu
+    \item vysoká přesnost je získána pro jednobarevné nelesklé povrchy
+    \end{itemize}
+\end{itemize}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 0.8\textwidth]{./moire}
+	\end{figure}
+Pozn. Na podobném principu existuje mnoho dalších metod 
+\end{frame}
+
+
+% 
+
+\begin{frame}
+Laserové měření:
+\begin{itemize}
+\item Měří fázový posun mezi vyslaným a přijatým signálem (např. bodově - lidar, nebo jako obraz - ToF kamera - MS Kinect II)
+\end{itemize}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 1.0\textwidth]{./tof}
+	\caption{Převzato z \cite{Kitano2017}}
+	\end{figure}
+% 	\includemovie{1cm}{1cm}{ani.gif}
+\end{frame}
+
+
+% princip  Moiré  proužků –scéna je osvětlena přes pravidelnou mřížku zrovnoběžných proužků. Podle jejich šířky lze určovat sklon povrch.Princip proměnného zaostření objektivu–po detekci maximální ostrosti je vzdálenost odečtena znastavení zaostření objektivu
+
+
+\begin{frame}
+Princip proměnného zaostření objektivu:
+\begin{itemize}
+\item 
+\end{itemize}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 0.8\textwidth]{./fokus}
+	\caption{Převzato z \cite{Suwajanakorn_2015_CVPR}}
+	\end{figure}
+\end{frame}
+
+ 
+\begin{frame}
+\frametitle{3D vidění - Perspektivní kamera}
+
+\begin{itemize}
+\item obecný \textbf{model perspektivní kamery} slouží k popisu projekce $ 3D $ prostoru do $ 2D $ prostoru (obrazová rovina)
+\item vždy se jedná o \textbf{středovou projekci}
+\end{itemize}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{./fig01}
+\end{figure}
+\textit{
+Pozn.  speciální případ ... střed projekce leží v nekonečnu $ \rightarrow $ \textbf{afinní kamera} a jde o zobecnění tzv. paralelní projekce}
+\end{frame}
+
+\begin{frame}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.55\textwidth]{./fig01}
+\end{figure}
+
+\begin{itemize}
+\item perspektivnı kamera má 1 stupňů volnosti: 1x ohnisková
+vzdálenost v pixelech + 1x poměr stran pixelu + 1x zkosenı os
++ 2x počátek obrázku + 3x posun + 3x rotace kamery = 11
+DOFs (degree of freedom)
+\item pro určení použijeme algoritmus kalibrace kamery (problém je lineární v homogenních souřadnicích)
+\item teoreticky stačí 5,5 prostorových bodů
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{3D vidění - Radialní zkreslení}
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=0.45\textwidth]{./fig17}
+ \includegraphics[width=0.45\textwidth]{./fig16}
+ \end{figure}
+\begin{itemize}
+
+\item někdy je nutné provést korekci zkreslení souřadnic obrázku
+\item efekt je způsoben nedokonalostí středového promítání, které je fyzicky provedeno přes čočku(y) objektivu
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{3D vidění - stereovidění}
+\begin{itemize}
+\item máme dva pohledy na stejnou scénu z různých směrů
+\begin{itemize}
+\item dva pohledy mohou být získány souběžně v jeden okamžik (např. dvě kamery)
+\item pohyb přístroje před objektem (např. obcházím kolem sochy a fotím ji z různých úhlů)
+\item pohyb objektu před přístrojem (např. otáčím jablkem před kamerou)
+\end{itemize}
+\item tyto úlohy jsou duální a vedou na stejné řešení
+\end{itemize}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{./epi1c}
+\label{fig:epi1}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Stereovidění - 3D rekonstrukce}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{./epi3}
+\label{fig:epi3}
+\end{figure}
+\begin{itemize}
+\item pokud známe obě kamery zkalibrované
+\item a současně máme korespondující pár
+\item pak můžeme určit 3D souřadnici neznámého bodu
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Teorie 3D vidění (Marrova teorie)}
+4 úrovně reprezentace 3D scény:
+\begin{itemize}
+	\item intenzitní obraz
+	\item prvotní  náčrtek
+	\item 2 1/2 dimenzionální náčrtek
+    \item plná 3D reprezentace	
+\end{itemize}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 1.0\textwidth]{./tank}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+Prvotní náčrtek:
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[trim=250 0 650 70,clip, width = 0.4\textwidth]{./tank}
+	\end{figure}
+\begin{itemize}
+	\item Obsahuje informace o velikostech a směrech významných jasových změn v obraze 
+	\item Jejich  vzájemné  geometrickém  uspořádání
+	\item Předpokládáme,  že  takto  získané  čáry  a  skvrny zachovávají informaci potřebnou pro pozdější 3D reprezentaci
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+2 1/2 rozměrný náčrtek:
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[trim=600 0 300 80,clip, width = 0.4\textwidth]{./tank}
+	\end{figure}
+\begin{itemize}
+	\item Pro jeho získání se používá informace obsažená v prvotním náčrtku
+	\item Používají se různé techniky, souhrnně nazývané „tvar  z X“ 
+	\begin{itemize}
+	    \item Tvar ze stereovidění
+	    \item Tvar z pohybu (optický tok)
+	    \item Tvar z jasu
+	    \item Tvar z textury
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+Plná 3D reprezentace objektu:
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[trim=950 0 0 80,clip, width = 0.4\textwidth]{./tank}
+	\end{figure}
+\begin{itemize}
+	\item Opírá se o  geometrické  vlastnosti,  které  lze  v obraze  nalézt
+	\item Geometrické  vlastnosti jsou vyjádřené  vzhledem k souřadnému systému vycházejícímu z tvaru objektu
+	\item Základní geometrické vlastnosti:
+	\begin{itemize}
+	    \item střed (nejčastěji těžiště)
+	    \item celková velikost 
+	    \item zobecněná osa symetrie (pokud je)
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Modely 3D objektů}
+Lze rozdělit na:
+\begin{itemize}
+	\item deskriptivní – plně popisují tvar objektu, definována odrazivost a osvětlení, z takového modelu lze vytvořit syntetický intenzitní obraz i syntetickou hloubkovou mapu pro libovolné místo pozorování
+	\item diskriminační – slouží k odlišení objektů několika tříd
+\end{itemize}
+
+Používané typy reprezentace:
+\begin{itemize}
+	\item drátový model - graf,jehož  vrcholy  odpovídají  3D  bodům  (často  vrcholům  objektu),  hrany  odpovídají  hranicím (nespojitostem normál k povrchu). Nehodí se pro popis objektů s křivočarými povrchy
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+	\item CSG (constructive solid geometry) model - používá  jako  základ  množinu  jednoduchých  3D  objektů,  jako  hranoly,  kužely,  válce,  koule,  krychle, kvádry  ap.  a  kombinuje  je  v  určité  pozici,  zvětšení  a  orientaci  pomocí  jednoduchých  množinových operací,  jako  průnik,  sjednocení,  rozdíl,  ap.  Model  je  reprezentován  stromem;  listy  odpovídají jednotlivým  elementárním  tělesům,  vyšší  uzly  představují  množinové  operace.  Toto  vyjádření  je výpočetně velmi náročné.
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 0.3\textwidth]{./csgtree}
+	\end{figure}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+GEON (z angl. geometrical ions)
+\begin{itemize}
+	\item  Zdůrazňuje  kvalitativní  charakter  reprezentace  objektů
+	\item  3D objekty  jsou  složeny  z několika  sousedících GEONů
+	\item Navrženo 36 základních GEONů
+	\item každý GEON je charakterizován čtveřicí kvalitativních vlastností:
+	    \begin{itemize}
+	    \item hranice – rovná / křivá 
+	    \item symetrie – středová / osová / žádná 
+	    \item změna velikosti – stálá / zvětšující se / zvětšující i zmenšující se 
+	    \item osa – přímá / křivá
+	    \end{itemize}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width = 0.6\textwidth]{./geons}
+	\end{figure}
+\end{itemize}
+\end{frame}
+
+
+
+
 % Ostatni strany prezentace
 \input{object_representation}
 
@@ -475,7 +799,7 @@
 \begin{frame}[t,allowframebreaks]
 \frametitle{References}
 \bibliographystyle{alpha}
-\bibliography{references.bib}
+\bibliography{references.bib, references2.bib}
 \end{frame}
 
 

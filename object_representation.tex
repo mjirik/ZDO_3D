@@ -117,8 +117,8 @@
 \begin{frame}{Point cloud}
 \begin{figure}
     \centering
-    \includegraphics{}
-    \caption{Caption}
+    \includegraphics[width=\textwidth]{figs/Monmouth_castle_point_cloud,_created_with_Photosynth_01.jpg}
+    \caption{Monmouth castle point cloud, created with Photosynth, \url{https://commons.wikimedia.org/wiki/File:Monmouth_castle_point_cloud,_created_with_Photosynth_01.jpg}}
     \label{fig:my_label}
 \end{figure}
     
@@ -355,10 +355,12 @@ Convex Hull
     
     O(nh) complexity, where $n = \#S$, and h is the number of points on the
 convex hull. Possition is checked by cross product.
+        \href{https://en.wikipedia.org/wiki/Gift_wrapping_algorithm}{Demo on Wikipedia}
         \begin{figure}
             \centering
             \includegraphics[width=\textwidth]{figs/L14-jarvis-algorithm.jpg}
         \end{figure}
+        
     % \begin{columns}
     %     \column{0.7\textwidth}
     %     \column{0.3\textwidth}
@@ -367,28 +369,116 @@ convex hull. Possition is checked by cross product.
 
 \begin{frame}{Chan's algorithm\cite{Chan1996}}
 
-Chan’s algorithm in the planar case: the algorithm combines an O(n log n)
-algorithm (Graham scan-line, for example) with Jarvis march O(nh), in
-order to obtain an optimal $O(n \mathrm{log} h)$ time.
+Chan’s algorithm in the planar case: the algorithm combines an
+$O(n \cdot \mathrm{log} ( n))$
+algorithm (Graham scan-line, for example) with Jarvis march $O(nh)$, in
+order to obtain an optimal $O(n \cdot \mathrm{log}(h))$ time.
+
+\href{https://en.wikipedia.org/wiki/Chan\%27s_algorithm}{Demo on Wikipedia}
 
     
 \end{frame}
 
-\begin{frame}{Alpha-complexes \cite{Edelsbrunner2010}}
-    \begin{columns}
-        \column{0.7\textwidth}
+\subsection{Alpha shapes}
+
+\begin{frame}{}
+        \begin{figure}
+            \centering
+            \includegraphics[width=\textwidth]{figs/L14-shape-of-a-set-of-points.jpg}
+            \caption{Study the shape of a set of points\cite{edelsbrunner2014short}}
+        \end{figure}
+\end{frame}
+
+
+
+\begin{frame}{Alpha-complexes \cite{Edelsbrunner2010,edelsbrunner1983shape}}
+    % \begin{columns}
+        % \column{0.7\textwidth}
         \begin{figure}
             \centering
             \includegraphics[width=\textwidth]{figs/L14-alpha-hull-alpha-shape.jpg}
             % \caption{Caption}
             % \label{fig:my_label}
         \end{figure}
-        \column{0.3\textwidth}
+        % \column{0.3\textwidth}
         
+    % \end{columns}
+\end{frame}
+
+\begin{frame}{Voronoi decomposition}
+
+    \begin{columns}
+        \column{0.5\textwidth}
+According to Delaunay triangulation, there is an edge between two points if
+their regions intersect in a common edge, and a triangle between three
+points if their regions intersect in a common point.
+        \column{0.5\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=\textwidth]{figs/L14-voronoi.jpg}
+        \end{figure}
     \end{columns}
 \end{frame}
 
-\begin{frame}{The Delaunay Triangulation}
+\begin{frame}{$\alpha$-Complex}
+    % \begin{columns}
+    %     \column{0.7\textwidth}
+    %     \column{0.3\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.65\textwidth]{figs/L14-alpha-complexes-varying-alpha.jpg}
+            \caption{$\alpha$-Complexes for varying $\alpha$}
+        \end{figure}
+    % \end{columns}
+\end{frame}
+
+\begin{frame}{$\alpha$-shapes in 3D}
+    % \begin{columns}
+    %     \column{0.7\textwidth}
+    %     \column{0.3\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.9\textwidth]{figs/L19-alpha-shapes-3D-1.jpg}
+        \end{figure}
+    % \end{columns}
+\end{frame}
+
+\begin{frame}{$\alpha$-shapes in 3D}
+    % \begin{columns}
+    %     \column{0.7\textwidth}
+    %     \column{0.3\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.9\textwidth]{figs/L19-alpha-shapes-3D-2.jpg}
+        \end{figure}
+    % \end{columns}
+\end{frame}
+
+% \begin{frame}{Spatial Hierarchical Domain Trees}
+%     \begin{columns}
+%     Foundations of Multidimensional and
+% Metric Data Structures provides a
+% thorough treatment of
+% multidimensional point data, object
+% and image-based representations,
+% intervals and small rectangles, and
+% high-dimensional datasets
+
+% Hanan Samet is the inventor of such
+% trees (quadtrees and octrees), which
+% are the foundation of Geographical
+% databases 
+% \cite{samet2006foundations}
+%         \column{0.7\textwidth}
+%         \column{0.3\textwidth}
+%         \begin{figure}
+%             \centering
+%             % \includegraphics[width=\textwidth]{}
+%         \end{figure}
+%     \end{columns}
+% \end{frame}
+
+\begin{frame}{}
     \begin{columns}
         \column{0.7\textwidth}
         \column{0.3\textwidth}
@@ -399,42 +489,42 @@ order to obtain an optimal $O(n \mathrm{log} h)$ time.
     \end{columns}
 \end{frame}
 
-\begin{frame}{Frame Title}
-   	Herbert Edelsbrunner and John Harer, [Computational Topology. An Introduction](https://www.amazon.it/Computational-Topology-Introduction-Herbert-Edelsbrunner/dp/0821849255/),  AMS, 2011.
+% \begin{frame}{Frame Title}
+%   	Herbert Edelsbrunner and John Harer, [Computational Topology. An Introduction](https://www.amazon.it/Computational-Topology-Introduction-Herbert-Edelsbrunner/dp/0821849255/),  AMS, 2011.
 
-3.	Jeremy Kepner and John Gilbert,[Graph Algorithms in the Language of Linear Algebra](epubs.siam.org/doi/book/10.1137/1.9780898719918), 2011.
+% 3.	Jeremy Kepner and John Gilbert,[Graph Algorithms in the Language of Linear Algebra](epubs.siam.org/doi/book/10.1137/1.9780898719918), 2011.
 
-4.	Timothy A. Davis, [Direct Methods for Sparse Linear Systems](http://epubs.siam.org/doi/book/10.1137/1.9780898718881), SIAM, 2006
+% 4.	Timothy A. Davis, [Direct Methods for Sparse Linear Systems](http://epubs.siam.org/doi/book/10.1137/1.9780898718881), SIAM, 2006
 
-5.	Herbert Edelsbrunner, [Geometry and Topology for Mesh Generation](https://www.amazon.com/Generation-Cambridge-Monographs-Computational-Mathematics/dp/052168207X), Cambridge Monographs on Applied and Computational Mathematics, 2001. \cite{Edelsbrunner2001}
-\end{frame}
+% 5.	Herbert Edelsbrunner, [Geometry and Topology for Mesh Generation](https://www.amazon.com/Generation-Cambridge-Monographs-Computational-Mathematics/dp/052168207X), Cambridge Monographs on Applied and Computational Mathematics, 2001. \cite{Edelsbrunner2001}
+% \end{frame}
 
 
-\begin{frame}
-	\frametitle{Content}
-	\begin{itemize}
-		\item Plain GAN
-			\begin{itemize}
-				\item[--] General Knowledge
-				\item[--] Adversarial Loss
-				\item[--] Problems of the training
-				\item[--] Examples of Usage 
-			\end{itemize}
-		\item Autoencoders
-			\begin{itemize}
-				\item[--] Structure
-				\item[--] Latent-space arithmetic
-				\item[--] Variational Autoencoder
-				\item[--] Examples of Usage 
-			\end{itemize}
-		\item Condi-GAN
-			\begin{itemize}
-				\item[--] General Knowledge
-				\item[--] Examples of Usage 
-			\end{itemize}
+% \begin{frame}
+% 	\frametitle{Content}
+% 	\begin{itemize}
+% 		\item Plain GAN
+% 			\begin{itemize}
+% 				\item[--] General Knowledge
+% 				\item[--] Adversarial Loss
+% 				\item[--] Problems of the training
+% 				\item[--] Examples of Usage 
+% 			\end{itemize}
+% 		\item Autoencoders
+% 			\begin{itemize}
+% 				\item[--] Structure
+% 				\item[--] Latent-space arithmetic
+% 				\item[--] Variational Autoencoder
+% 				\item[--] Examples of Usage 
+% 			\end{itemize}
+% 		\item Condi-GAN
+% 			\begin{itemize}
+% 				\item[--] General Knowledge
+% 				\item[--] Examples of Usage 
+% 			\end{itemize}
 		
-	\end{itemize}
-\end{frame}
+% 	\end{itemize}
+% \end{frame}
 
 \endgroup
 

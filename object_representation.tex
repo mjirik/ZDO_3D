@@ -54,7 +54,8 @@
 
 \begin{frame}[fragile]{OBJ file format}
     \begin{columns}
-        \column{0.7\textwidth}
+        \column{0.6\textwidth}
+        Content of \verb+example.obj+ can be displayed with ParaView application.
             \begin{lstlisting}
             v 0.0 0.0 0.1
             v 0.0 0.1 1.0
@@ -66,15 +67,38 @@
             f 1 2 4 3
             f 3 4 5
             \end{lstlisting}
-        \column{0.3\textwidth}
-        \begin{figure}
-            \centering
-            % \includegraphics{figs/ob}
-            % \caption{Caption}
-            % \label{fig:my_label}
-        \end{figure}
-        % uasdf
+        \column{0.4\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\textwidth]{figs/example_obj.png}
+                % \caption{Caption}
+                % \label{fig:my_label}
+            \end{figure}
     \end{columns}
+\end{frame}
+
+\begin{frame}{Linear Algebraic Representation\cite{DiCarlo2014}}
+    
+\end{frame}
+
+\begin{frame}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figs/L02-chain-complex.png}
+    % \caption{Caption}
+    % \label{fig:my_label}
+\end{figure}
+    
+\end{frame}
+
+\begin{frame}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figs/L02-characteristic-matrices.png}
+    % \caption{Caption}
+    % \label{fig:my_label}
+\end{figure}
+    
 \end{frame}
 
 
@@ -87,6 +111,17 @@
     % \label{fig:terrain-map}
 \end{figure}
 
+\end{frame}
+
+
+\begin{frame}{Point cloud}
+\begin{figure}
+    \centering
+    \includegraphics{}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+    
 \end{frame}
 
 \begin{frame}{Triangulation}
@@ -146,7 +181,7 @@ of P. Then any triangulation of P has $2n - 2 - k$ triangles and $3n-3-k$ edges.
 
 \begin{frame}{The Delaunay Triangulation}
     \begin{columns}
-        \column{0.7\textwidth}
+        \column{0.6\textwidth}
         Delaunay triangulation for a set P of discrete
 points in a plane is a triangulation DT(P)
 such that no point in P is inside the
@@ -155,7 +190,7 @@ circumcircle of any triangle in DT(P).
 Delaunay triangulations maximize the
 minimum angle of all the angles of the
 triangles in the triangulation.
-        \column{0.3\textwidth}
+        \column{0.4\textwidth}
         \begin{figure}
             \centering
             \includegraphics[width=\textwidth]{figs/L07-delaunay-triangulation.png}
@@ -280,11 +315,87 @@ The Voronoi diagram of a set of points is dual to its Delaunay triangulation
 \end{frame}
 
 % De Berg, M., Cheong, O., Van Kreveld, M., & Overmars, M. (2008). Computational geometry: Algorithms and applications. Computational Geometry: Algorithms and Applications. https://doi.org/10.1007/978-3-540-77974-2
+\subsection{Convex hull}
+
+\begin{frame}
+\vfill
+\centering
+
+\begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+Convex Hull
+\end{beamercolorbox}
+\vfill
+    
+\end{frame}
+
+
+
+
+\begin{frame}{Convex Hull}
+    \begin{columns}
+        \column{0.6\textwidth}
+            Given a discrete set S of points:
+            \begin{itemize}
+                \item intersection of all convex sets containing S;
+                \item minimum convex set containing S
+                \item set spanned by all convex combinations of S points
+            \end{itemize}
+        \column{0.4\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=\textwidth]{figs/L14-convex-hull.jpg}
+        \end{figure}
+    \end{columns}
+\end{frame}
+
+
+\begin{frame}{Jarvis algoritgm\cite{Jarvis1973}}
+
+    Gift Wrap Algorithm (Jarvis March Algorithm) to find Convex Hull. 
+    
+    O(nh) complexity, where $n = \#S$, and h is the number of points on the
+convex hull. Possition is checked by cross product.
+        \begin{figure}
+            \centering
+            \includegraphics[width=\textwidth]{figs/L14-jarvis-algorithm.jpg}
+        \end{figure}
+    % \begin{columns}
+    %     \column{0.7\textwidth}
+    %     \column{0.3\textwidth}
+    % \end{columns}
+\end{frame}
+
+\begin{frame}{Chan's algorithm\cite{Chan1996}}
+
+Chan’s algorithm in the planar case: the algorithm combines an O(n log n)
+algorithm (Graham scan-line, for example) with Jarvis march O(nh), in
+order to obtain an optimal $O(n \mathrm{log} h)$ time.
+
+    
+\end{frame}
+
+\begin{frame}{Alpha-complexes \cite{Edelsbrunner2010}}
+    \begin{columns}
+        \column{0.7\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=\textwidth]{figs/L14-alpha-hull-alpha-shape.jpg}
+            % \caption{Caption}
+            % \label{fig:my_label}
+        \end{figure}
+        \column{0.3\textwidth}
+        
+    \end{columns}
+\end{frame}
 
 \begin{frame}{The Delaunay Triangulation}
     \begin{columns}
         \column{0.7\textwidth}
         \column{0.3\textwidth}
+        \begin{figure}
+            \centering
+            % \includegraphics[width=\textwidth]{}
+        \end{figure}
     \end{columns}
 \end{frame}
 
